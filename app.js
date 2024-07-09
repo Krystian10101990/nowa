@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
+    const suggestionsContainer = document.getElementById('suggestionsContainer'); // Nowy element dla podpowiedzi
 
     const encyclopediaData = {
         "komisje śledcze": "Opis komisji śledczych...",
@@ -12,13 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Dodaj więcej definicji encyklopedycznych tutaj
     };
 
-    // Funkcja do filtrowania haseł na podstawie wprowadzonego tekstu
-    function suggestTerms(searchTerm) {
+    // Funkcja do generowania podpowiedzi w postaci hiperłączy
+    function showSuggestions(searchTerm) {
         searchTerm = searchTerm.toLowerCase();
         const suggestions = Object.keys(encyclopediaData).filter(term =>
             term.toLowerCase().startsWith(searchTerm)
         );
-        return suggestions;
+        
+        // Wygenerowanie hiperłączy dla sugestii
+        const links = suggestions.map(term => {
+            return `<a href="#" class="suggestionLink">${term}</a>`;
+        });
+
+        // Wyświetlenie sugestii w kontenerze nad przyciskami
+        suggestionsContainer.innerHTML = links.join(', ');
     }
 
     // Obsługa kliknięcia przycisku Szukaj
@@ -26,17 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
+        suggestionsContainer.innerHTML = ''; // Ukrycie podpowiedzi po kliknięciu Szukaj
     });
 
     // Obsługa wprowadzania tekstu w polu wyszukiwania
     searchEditText.addEventListener('input', function() {
         const searchTerm = this.value.trim();
         if (searchTerm.length > 0) {
-            const suggestions = suggestTerms(searchTerm);
-            // Wyświetlenie sugestii jako podpowiedzi
-            resultTextView.innerHTML = suggestions.join(', ');
+            showSuggestions(searchTerm);
         } else {
-            resultTextView.innerHTML = '';
+            suggestionsContainer.innerHTML = '';
         }
     });
 
@@ -44,5 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
     clearButton.addEventListener('click', function() {
         searchEditText.value = '';
         resultTextView.innerHTML = '';
+        suggestionsContainer.innerHTML = ''; // Ukrycie podpowiedzi po kliknięciu Wyczyść
+    });
+
+    // Obsługa kliknięcia na hiperłączach (podpowiedziach)
+    suggestionsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('suggestionLink')) {
+            const selectedTerm = event.target.innerText;
+            searchEditText.value = selectedTerm; // Wstawienie wybranego terminu do pola wyszukiwania
+            showSuggestions(''); // Wyczyszczenie podpowiedzi
+        }
     });
 });
