@@ -12,13 +12,37 @@ document.addEventListener('DOMContentLoaded', function() {
         // Dodaj więcej definicji encyklopedycznych tutaj
     };
 
+    // Funkcja do filtrowania haseł na podstawie wprowadzonego tekstu
+    function suggestTerms(searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        const suggestions = Object.keys(encyclopediaData).filter(term =>
+            term.toLowerCase().startsWith(searchTerm)
+        );
+        return suggestions;
+    }
+
+    // Obsługa kliknięcia przycisku Szukaj
     searchButton.addEventListener('click', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
     });
 
+    // Obsługa wprowadzania tekstu w polu wyszukiwania
+    searchEditText.addEventListener('input', function() {
+        const searchTerm = this.value.trim();
+        if (searchTerm.length > 0) {
+            const suggestions = suggestTerms(searchTerm);
+            // Wyświetlenie sugestii jako podpowiedzi
+            resultTextView.innerHTML = suggestions.join(', ');
+        } else {
+            resultTextView.innerHTML = '';
+        }
+    });
+
+    // Obsługa kliknięcia przycisku Wyczyść
     clearButton.addEventListener('click', function() {
+        searchEditText.value = '';
         resultTextView.innerHTML = '';
     });
 });
