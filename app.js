@@ -28,11 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsContainer.innerHTML = links.join('');
     }
 
-    searchButton.addEventListener('click', function() {
-        const searchQuery = searchEditText.value.toLowerCase();
+    function displayResult(term) {
+        const searchQuery = term.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
         suggestionsContainer.innerHTML = '';
+    }
+
+    searchButton.addEventListener('click', function() {
+        displayResult(searchEditText.value);
     });
 
     searchEditText.addEventListener('input', function() {
@@ -54,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target.classList.contains('suggestionLink')) {
             const selectedTerm = event.target.innerText;
             searchEditText.value = selectedTerm;
-            showSuggestions('');
+            displayResult(selectedTerm);
         }
     });
 
