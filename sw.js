@@ -2,13 +2,13 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('dictionary-v1').then(function(cache) {
             return cache.addAll([
-                './',
-                './index.html',
-                './styles.css',
-                './app.js',
-                './manifest.json',
-                './icons/ikonka.png',
-                './icons/icon-512x512.png'
+                '/',
+                '/index.html',
+                '/styles.css',
+                '/app.js',
+                '/manifest.json',
+                '/icons/ikonka.png',
+                '/icons/icon-512x512.png'
             ]);
         })
     );
