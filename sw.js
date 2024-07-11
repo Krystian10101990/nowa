@@ -3,12 +3,12 @@ self.addEventListener('install', function(event) {
         caches.open('dictionary-v1').then(function(cache) {
             return cache.addAll([
                 '/',
-                '/index.html',
-                '/styles.css',
-                '/app.js',
-                '/manifest.json',
-                '/icons/ikonka.png',
-                '/icons/icon-512x512.png'
+                '/nowa/index.html',
+                '/nowa/styles.css',
+                '/nowa/app.js',
+                '/nowa/manifest.json',
+                '/nowa/icons/ikonka.png',
+                '/nowa/icons/icon-512x512.png'
             ]);
         })
     );
