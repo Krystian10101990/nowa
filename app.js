@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const encyclopediaData = {
         "komisje śledcze": "Opis komisji śledczych...",
-        "konstytucja": "Podstawowy akt prawny regulujący ustrojstwo państwa...",
+        "konstytucja": "Podstawowy akt prawny regulujący ustrój państwa...",
         "prawo cywilne": "Gałąź prawa regulująca stosunki prawne między osobami...",
         "kara śmierci": "Najwyższy wymiar kary, polegający na pozbawieniu życia skazańca...",
         // Dodaj więcej definicji encyklopedycznych tutaj
@@ -82,4 +82,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('appinstalled', (evt) => {
         console.log('Aplikacja została zainstalowana.');
     });
+
+    // Rejestracja service workera
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('Service worker zarejestrowany:', registration);
+            })
+            .catch((error) => {
+                console.error('Rejestracja service workera nie powiodła się:', error);
+            });
+    }
 });
