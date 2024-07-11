@@ -6,18 +6,17 @@
     <title>Słowniczek Prawniczy</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="/manifest.json">
+    <script src="app.js" defer></script>
 </head>
 <body>
-    <div id="app">
+    <div class="container">
         <h1>Słowniczek Prawniczy</h1>
         <input type="text" id="searchEditText" placeholder="Wyszukaj hasło">
+        <div id="suggestionsContainer"></div>
         <button id="searchButton">Szukaj</button>
         <button id="clearButton">Wyczyść</button>
-        <div id="suggestionsContainer"></div> <!-- Kontener na podpowiedzi -->
         <div id="resultTextView"></div>
-        <button id="installButton" style="display: none;">Zainstaluj aplikację</button> <!-- Przycisk instalacji -->
+        <button id="installButton" style="display: none;">Zainstaluj aplikację</button>
     </div>
-
-    <script src="app.js"></script>
 </body>
 </html>
