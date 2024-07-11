@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let deferredPrompt;
 
     const encyclopediaData = {
-        "komisje śledcze": "Opis komisji śledczych...",
+        "komisje śledcze": "Rodzaj komisji sejmowych, o nadzwyczajnym charakterze...",
         "konstytucja": "Podstawowy akt prawny regulujący ustrój państwa...",
         "prawo cywilne": "Gałąź prawa regulująca stosunki prawne między osobami...",
         "kara śmierci": "Najwyższy wymiar kary, polegający na pozbawieniu życia skazańca...",
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return `<a href="#" class="suggestionLink">${term}</a>`;
         });
 
-        suggestionsContainer.innerHTML = links.join(', ');
+        suggestionsContainer.innerHTML = links.join('');
     }
 
     searchButton.addEventListener('click', function() {
