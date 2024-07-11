@@ -1,98 +1,79 @@
+// Słownik prawniczy - przykładowe definicje
+const encyclopediaData = {
+    "komisje śledcze": "Opis komisji śledczych...",
+    "konstytucja": "Podstawowy akt prawny regulujący ustrojstwo i działalność organów władzy państwowej...",
+    "sąd najwyższy": "Najwyższy organ sądownictwa powszechnego w Polsce..."
+    // Dodaj więcej definicji encyklopedycznych tutaj
+};
+
+// Funkcja obsługująca wyszukiwanie i wyświetlanie definicji
 document.addEventListener('DOMContentLoaded', function() {
     const searchEditText = document.getElementById('searchEditText');
     const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
     const suggestionsContainer = document.getElementById('suggestionsContainer');
-    const installButton = document.getElementById('installButton');
-    let deferredPrompt;
 
-    const encyclopediaData = {
-        "komisje śledcze": "Rodzaj komisji sejmowych, o nadzwyczajnym charakterze...",
-        "konstytucja": "Podstawowy akt prawny regulujący ustrój państwa...",
-        "prawo cywilne": "Gałąź prawa regulująca stosunki prawne między osobami...",
-        "kara śmierci": "Najwyższy wymiar kary, polegający na pozbawieniu życia skazańca...",
-        // Dodaj więcej definicji encyklopedycznych tutaj
-    };
-
-    function showSuggestions(searchTerm) {
-        searchTerm = searchTerm.toLowerCase();
-        const suggestions = Object.keys(encyclopediaData).filter(term =>
-            term.toLowerCase().startsWith(searchTerm)
+    // Funkcja wyświetlająca sugestie wyszukiwania
+    function displaySuggestions() {
+        suggestionsContainer.innerHTML = '';
+        const searchQuery = searchEditText.value.toLowerCase();
+        const suggestions = Object.keys(encyclopediaData).filter(key =>
+            key.toLowerCase().startsWith(searchQuery)
         );
-        
-        const links = suggestions.map(term => {
-            return `<a href="#" class="suggestionLink">${term}</a>`;
+        suggestions.forEach(suggestion => {
+            const suggestionLink = document.createElement('a');
+            suggestionLink.href = '#';
+            suggestionLink.textContent = suggestion;
+            suggestionLink.classList.add('suggestionLink');
+            suggestionLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                searchEditText.value = suggestion;
+                searchButton.click();
+            });
+            suggestionsContainer.appendChild(suggestionLink);
         });
-
-        suggestionsContainer.innerHTML = links.join('');
     }
 
-    function displayResult(term) {
-        const searchQuery = term.toLowerCase();
+    // Nasłuchiwanie na zmiany w polu wyszukiwania
+    searchEditText.addEventListener('input', displaySuggestions);
+
+    // Obsługa przycisku szukaj
+    searchButton.addEventListener('click', function() {
+        const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
-        suggestionsContainer.innerHTML = '';
-    }
-
-    searchEditText.addEventListener('input', function() {
-        const searchTerm = this.value.trim();
-        if (searchTerm.length > 0) {
-            showSuggestions(searchTerm);
-        } else {
-            suggestionsContainer.innerHTML = '';
-        }
     });
 
+    // Obsługa przycisku wyczyść
     clearButton.addEventListener('click', function() {
         searchEditText.value = '';
         resultTextView.innerHTML = '';
         suggestionsContainer.innerHTML = '';
     });
+});
 
-    suggestionsContainer.addEventListener('click', function(event) {
-        if (event.target.classList.contains('suggestionLink')) {
-            event.preventDefault();  // Prevent the default link behavior
-            const selectedTerm = event.target.innerText;
-            searchEditText.value = selectedTerm;
-            displayResult(selectedTerm);
-        }
-    });
-
-    // Obsługa zdarzenia beforeinstallprompt
+// Dodanie obsługi instalacji PWA
+window.addEventListener('load', () => {
+    let deferredPrompt;
+    const installButton = document.getElementById('installButton');
+    
     window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('beforeinstallprompt event triggered');
         e.preventDefault();
         deferredPrompt = e;
-        installButton.style.display = 'block';
-
-        installButton.addEventListener('click', () => {
-            installButton.style.display = 'none';
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('Użytkownik zaakceptował instalację PWA');
-                } else {
-                    console.log('Użytkownik odrzucił instalację PWA');
-                }
-                deferredPrompt = null;
-            });
+        installButton.style.display = 'block'; // Pokazuje przycisk instalacji
+    });
+    
+    installButton.addEventListener('click', () => {
+        installButton.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Użytkownik zaakceptował instalację PWA');
+            } else {
+                console.log('Użytkownik anulował instalację PWA');
+            }
+            deferredPrompt = null;
         });
     });
-
-    // Sprawdzenie, czy aplikacja jest zainstalowana
-    window.addEventListener('appinstalled', (evt) => {
-        console.log('Aplikacja została zainstalowana.');
-    });
-
-    // Rejestracja service workera
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log('Service worker zarejestrowany:', registration);
-            })
-            .catch((error) => {
-                console.error('Rejestracja service workera nie powiodła się:', error);
-            });
-    }
 });
