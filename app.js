@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Obsługa zdarzenia beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('beforeinstallprompt event triggered');
         e.preventDefault();
         deferredPrompt = e;
         installButton.style.display = 'block';
