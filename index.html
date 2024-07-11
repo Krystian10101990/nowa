@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Słowniczek Prawniczy</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="/manifest.json">
     <script src="app.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service worker zarejestrowany:', registration);
+                    })
+                    .catch((error) => {
+                        console.error('Rejestracja service workera nie powiodła się:', error);
+                    });
+            });
+        }
+    </script>
 </head>
+
 <body>
     <div class="container">
         <h1>Słowniczek Prawniczy</h1>
@@ -16,7 +31,9 @@
         <button id="searchButton">Szukaj</button>
         <button id="clearButton">Wyczyść</button>
         <div id="resultTextView"></div>
+        <!-- Dodaj przyciski instalacji PWA -->
         <button id="installButton" style="display: none;">Zainstaluj aplikację</button>
     </div>
 </body>
+
 </html>
