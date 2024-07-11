@@ -1,37 +1,27 @@
-// Zarejestruj service workera
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log('Service worker zarejestrowany:', registration);
-            })
-            .catch((error) => {
-                console.error('Rejestracja service workera nie powiodła się:', error);
-            });
-    });
-}
+<!DOCTYPE html>
+<html lang="pl">
 
-// Dodaj obsługę instalacji PWA
-window.addEventListener('load', () => {
-    let deferredPrompt;
-    const installButton = document.getElementById('installButton');
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButton.style.display = 'block'; // Pokazuje przycisk instalacji
-    });
-    
-    installButton.addEventListener('click', () => {
-        installButton.style.display = 'none';
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('Użytkownik zaakceptował instalację PWA');
-            } else {
-                console.log('Użytkownik anulował instalację PWA');
-            }
-            deferredPrompt = null;
-        });
-    });
-});
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Słowniczek Prawniczy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Słowniczek Prawniczy</h1>
+        <input type="text" id="searchEditText" placeholder="Wyszukaj hasło">
+        <div id="suggestionsContainer"></div>
+        <button id="searchButton">Szukaj</button>
+        <button id="clearButton">Wyczyść</button>
+        <div id="resultTextView"></div>
+        <!-- Przycisk instalacji PWA -->
+        <button id="installButton" style="display: none;">Zainstaluj aplikację</button>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+
+</html>
