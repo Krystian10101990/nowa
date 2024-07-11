@@ -1,6 +1,6 @@
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open('dictionary-v1').then(function(cache) {
+        caches.open('dictionary-v2').then(function(cache) {
             return cache.addAll([
                 '/',
                 '/nowa/index.html',
