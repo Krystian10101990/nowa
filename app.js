@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     suggestionsContainer.addEventListener('click', function(event) {
         if (event.target.classList.contains('suggestionLink')) {
+            event.preventDefault();  // Prevent the default link behavior
             const selectedTerm = event.target.innerText;
             searchEditText.value = selectedTerm;
             displayResult(selectedTerm);
