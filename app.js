@@ -35,6 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsContainer.innerHTML = '';
     }
 
+    searchButton.addEventListener('click', function() {
+        displayResult(searchEditText.value);
+    });
+
     searchEditText.addEventListener('input', function() {
         const searchTerm = this.value.trim();
         if (searchTerm.length > 0) {
@@ -52,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     suggestionsContainer.addEventListener('click', function(event) {
         if (event.target.classList.contains('suggestionLink')) {
-            event.preventDefault();  // Prevent the default link behavior
             const selectedTerm = event.target.innerText;
             searchEditText.value = selectedTerm;
             displayResult(selectedTerm);
@@ -85,4 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Aplikacja została zainstalowana.');
     });
 
-    // Rejestracja
+    // Rejestracja service workera
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('Service worker zarejestrowany:', registration);
+            })
+            .catch((error) => {
+                console.error('Rejestracja service workera nie powiodła się:', error);
+            });
+    }
+});
