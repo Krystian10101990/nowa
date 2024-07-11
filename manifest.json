@@ -1,7 +1,7 @@
 {
   "name": "Słowniczek Prawniczy",
   "short_name": "PrawnikApp",
-  "start_url": "/index.html",
+  "start_url": "/nowa",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
