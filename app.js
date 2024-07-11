@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
-    const suggestionsContainer = document.getElementById('suggestionsContainer'); // Nowy element dla podpowiedzi
+    const suggestionsContainer = document.getElementById('suggestionsContainer');
+    const installButton = document.getElementById('installButton');
+    let deferredPrompt;
 
     const encyclopediaData = {
         "komisje śledcze": "Opis komisji śledczych...",
@@ -13,31 +15,26 @@ document.addEventListener('DOMContentLoaded', function() {
         // Dodaj więcej definicji encyklopedycznych tutaj
     };
 
-    // Funkcja do generowania podpowiedzi w postaci hiperłączy
     function showSuggestions(searchTerm) {
         searchTerm = searchTerm.toLowerCase();
         const suggestions = Object.keys(encyclopediaData).filter(term =>
             term.toLowerCase().startsWith(searchTerm)
         );
         
-        // Wygenerowanie hiperłączy dla sugestii
         const links = suggestions.map(term => {
             return `<a href="#" class="suggestionLink">${term}</a>`;
         });
 
-        // Wyświetlenie sugestii w kontenerze nad przyciskami
         suggestionsContainer.innerHTML = links.join(', ');
     }
 
-    // Obsługa kliknięcia przycisku Szukaj
     searchButton.addEventListener('click', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
-        suggestionsContainer.innerHTML = ''; // Ukrycie podpowiedzi po kliknięciu Szukaj
+        suggestionsContainer.innerHTML = '';
     });
 
-    // Obsługa wprowadzania tekstu w polu wyszukiwania
     searchEditText.addEventListener('input', function() {
         const searchTerm = this.value.trim();
         if (searchTerm.length > 0) {
@@ -47,19 +44,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Obsługa kliknięcia przycisku Wyczyść
     clearButton.addEventListener('click', function() {
         searchEditText.value = '';
         resultTextView.innerHTML = '';
-        suggestionsContainer.innerHTML = ''; // Ukrycie podpowiedzi po kliknięciu Wyczyść
+        suggestionsContainer.innerHTML = '';
     });
 
-    // Obsługa kliknięcia na hiperłączach (podpowiedziach)
     suggestionsContainer.addEventListener('click', function(event) {
         if (event.target.classList.contains('suggestionLink')) {
             const selectedTerm = event.target.innerText;
-            searchEditText.value = selectedTerm; // Wstawienie wybranego terminu do pola wyszukiwania
-            showSuggestions(''); // Wyczyszczenie podpowiedzi
+            searchEditText.value = selectedTerm;
+            showSuggestions('');
         }
+    });
+
+    // Obsługa zdarzenia beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installButton.style.display = 'block';
+
+        installButton.addEventListener('click', () => {
+            installButton.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Użytkownik zaakceptował instalację PWA');
+                } else {
+                    console.log('Użytkownik odrzucił instalację PWA');
+                }
+                deferredPrompt = null;
+            });
+        });
+    });
+
+    // Sprawdzenie, czy aplikacja jest zainstalowana
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('Aplikacja została zainstalowana.');
     });
 });
