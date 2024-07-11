@@ -1,80 +1,70 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: #f7f7f7;
+    margin: 0;
 }
 
-#app {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
+.container {
     text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
 }
 
 h1 {
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-input, button {
-    font-size: 1rem;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+input[type="text"] {
     width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: calc(50% - 11px);
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#clearButton {
-    background-color: #f44336;
-}
-
-#clearButton:hover {
-    background-color: #e41e1e;
 }
 
 #suggestionsContainer {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .suggestionLink {
     display: block;
     padding: 5px;
     border-bottom: 1px solid #ddd;
-    text-decoration: none;
     color: #333;
+    text-decoration: none;
 }
 
 .suggestionLink:hover {
     background-color: #f0f0f0;
 }
 
-#installButton {
-    background-color: #008CBA;
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-#installButton:hover {
-    background-color: #007bb5;
+button:hover {
+    background-color: #0056b3;
+}
+
+#resultTextView {
+    margin-top: 20px;
+    text-align: left;
 }
