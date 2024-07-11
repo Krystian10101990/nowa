@@ -35,10 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsContainer.innerHTML = '';
     }
 
-    searchButton.addEventListener('click', function() {
-        displayResult(searchEditText.value);
-    });
-
     searchEditText.addEventListener('input', function() {
         const searchTerm = this.value.trim();
         if (searchTerm.length > 0) {
