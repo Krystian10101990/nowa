@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Słownik Prawny</title>
+    <title>Słowniczek Prawniczy</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
     <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service worker zarejestrowany:', registration);
+                    })
+                    .catch((error) => {
+                        console.error('Rejestracja service workera nie powiodła się:', error);
+                    });
+            });
+        }
+    </script>
 </head>
+
 <body>
-    <header>
-        <h1>Słownik Prawny</h1>
-    </header>
-    <main>
-        <form id="searchForm">
-            <input type="text" id="searchInput" placeholder="Wyszukaj hasło...">
-            <button type="submit">Szukaj</button>
-        </form>
-        <div id="result"></div>
-    </main>
-    <script src="app.js"></script>
+    <div class="container">
+        <h1>Słowniczek Prawniczy</h1>
+        <input type="text" id="searchEditText" placeholder="Wyszukaj hasło">
+        <div id="suggestionsContainer"></div>
+        <button id="searchButton">Szukaj</button>
+        <button id="clearButton">Wyczyść</button>
+        <div id="resultTextView"></div>
+        <!-- Dodaj przyciski instalacji PWA -->
+        <button id="installButton" style="display: none;">Zainstaluj aplikację</button>
+    </div>
 </body>
+
 </html>
