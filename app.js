@@ -1,79 +1,58 @@
-// Słownik prawniczy - przykładowe definicje
-const encyclopediaData = {
-    "komisje śledcze": "Opis komisji śledczych...",
-    "konstytucja": "Podstawowy akt prawny regulujący ustrojstwo i działalność organów władzy państwowej...",
-    "sąd najwyższy": "Najwyższy organ sądownictwa powszechnego w Polsce..."
-    // Dodaj więcej definicji encyklopedycznych tutaj
-};
-
-// Funkcja obsługująca wyszukiwanie i wyświetlanie definicji
 document.addEventListener('DOMContentLoaded', function() {
     const searchEditText = document.getElementById('searchEditText');
     const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
-    const suggestionsContainer = document.getElementById('suggestionsContainer');
+    const suggestionsList = document.getElementById('suggestionsList'); // Dodajemy referencję do listy sugestii
 
-    // Funkcja wyświetlająca sugestie wyszukiwania
-    function displaySuggestions() {
-        suggestionsContainer.innerHTML = '';
-        const searchQuery = searchEditText.value.toLowerCase();
-        const suggestions = Object.keys(encyclopediaData).filter(key =>
-            key.toLowerCase().startsWith(searchQuery)
-        );
-        suggestions.forEach(suggestion => {
-            const suggestionLink = document.createElement('a');
-            suggestionLink.href = '#';
-            suggestionLink.textContent = suggestion;
-            suggestionLink.classList.add('suggestionLink');
-            suggestionLink.addEventListener('click', function(event) {
-                event.preventDefault();
-                searchEditText.value = suggestion;
-                searchButton.click();
-            });
-            suggestionsContainer.appendChild(suggestionLink);
-        });
-    }
+    const encyclopediaData = {
+        "komisje śledcze": "Opis komisji śledczych...",
+        // Dodaj więcej definicji encyklopedycznych tutaj
+    };
 
-    // Nasłuchiwanie na zmiany w polu wyszukiwania
-    searchEditText.addEventListener('input', displaySuggestions);
-
-    // Obsługa przycisku szukaj
     searchButton.addEventListener('click', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
+        suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu przycisku Szukaj
     });
 
-    // Obsługa przycisku wyczyść
     clearButton.addEventListener('click', function() {
-        searchEditText.value = '';
         resultTextView.innerHTML = '';
-        suggestionsContainer.innerHTML = '';
+        suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu przycisku Wyczyść
     });
-});
 
-// Dodanie obsługi instalacji PWA
-window.addEventListener('load', () => {
-    let deferredPrompt;
-    const installButton = document.getElementById('installButton');
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButton.style.display = 'block'; // Pokazuje przycisk instalacji
+    // Obsługa kliknięcia na sugestię
+    suggestionsList.addEventListener('click', function(event) {
+        if (event.target.tagName === 'A') { // Sprawdzamy czy kliknięty element jest hiperłączem
+            const suggestion = event.target.textContent.toLowerCase(); // Pobieramy tekst sugestii
+            const result = encyclopediaData[suggestion] || `Brak wyników dla: ${suggestion}`;
+            resultTextView.innerHTML = result;
+            suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu na sugestię
+        }
     });
-    
-    installButton.addEventListener('click', () => {
-        installButton.style.display = 'none';
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('Użytkownik zaakceptował instalację PWA');
-            } else {
-                console.log('Użytkownik anulował instalację PWA');
-            }
-            deferredPrompt = null;
+
+    // Funkcja do generowania sugestii
+    function generateSuggestions(query) {
+        const suggestions = Object.keys(encyclopediaData).filter(key => key.includes(query.toLowerCase()));
+        suggestionsList.innerHTML = ''; // Czyszczenie poprzednich sugestii
+        suggestions.forEach(suggestion => {
+            const link = document.createElement('a');
+            link.href = '#'; // Link, który nie przenosi do innej strony
+            link.textContent = suggestion;
+            const listItem = document.createElement('li');
+            listItem.appendChild(link);
+            suggestionsList.appendChild(listItem);
         });
+    }
+
+    // Słuchacz zmiany wartości w polu wyszukiwania
+    searchEditText.addEventListener('input', function() {
+        const query = searchEditText.value.trim();
+        if (query.length > 0) {
+            generateSuggestions(query);
+        } else {
+            suggestionsList.innerHTML = ''; // Czyszczenie sugestii, jeśli pole wyszukiwania jest puste
+        }
     });
 });
