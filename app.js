@@ -3,56 +3,86 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
-    const suggestionsList = document.getElementById('suggestionsList'); // Dodajemy referencję do listy sugestii
+    const suggestionsContainer = document.getElementById('suggestionsContainer');
+    const installButton = document.getElementById('installButton');
+    let deferredPrompt;
 
     const encyclopediaData = {
-        "komisje śledcze": "Opis komisji śledczych...",
+        "komisje śledcze": "Rodzaj komisji sejmowych, o nadzwyczajnym charakterze...",
+        "konstytucja": "Podstawowy akt prawny regulujący ustrój państwa...",
+        "prawo cywilne": "Gałąź prawa regulująca stosunki prawne między osobami...",
+        "kara śmierci": "Najwyższy wymiar kary, polegający na pozbawieniu życia skazańca...",
         // Dodaj więcej definicji encyklopedycznych tutaj
     };
 
-    searchButton.addEventListener('click', function() {
-        const searchQuery = searchEditText.value.toLowerCase();
+    function showSuggestions(searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        const suggestions = Object.keys(encyclopediaData).filter(term =>
+            term.toLowerCase().startsWith(searchTerm)
+        );
+        
+        const links = suggestions.map(term => {
+            return `<a href="#" class="suggestionLink">${term}</a>`;
+        });
+
+        suggestionsContainer.innerHTML = links.join('');
+    }
+
+    function displayResult(term) {
+        const searchQuery = term.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
         resultTextView.innerHTML = result;
-        suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu przycisku Szukaj
+        suggestionsContainer.innerHTML = '';
+    }
+
+    searchEditText.addEventListener('input', function() {
+        const searchTerm = this.value.trim();
+        if (searchTerm.length > 0) {
+            showSuggestions(searchTerm);
+        } else {
+            suggestionsContainer.innerHTML = '';
+        }
     });
 
     clearButton.addEventListener('click', function() {
+        searchEditText.value = '';
         resultTextView.innerHTML = '';
-        suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu przycisku Wyczyść
+        suggestionsContainer.innerHTML = '';
     });
 
-    // Obsługa kliknięcia na sugestię
-    suggestionsList.addEventListener('click', function(event) {
-        if (event.target.tagName === 'A') { // Sprawdzamy czy kliknięty element jest hiperłączem
-            const suggestion = event.target.textContent.toLowerCase(); // Pobieramy tekst sugestii
-            const result = encyclopediaData[suggestion] || `Brak wyników dla: ${suggestion}`;
-            resultTextView.innerHTML = result;
-            suggestionsList.innerHTML = ''; // Czyszczenie listy sugestii po kliknięciu na sugestię
+    suggestionsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('suggestionLink')) {
+            event.preventDefault();  // Prevent the default link behavior
+            const selectedTerm = event.target.innerText;
+            searchEditText.value = selectedTerm;
+            displayResult(selectedTerm);
         }
     });
 
-    // Funkcja do generowania sugestii
-    function generateSuggestions(query) {
-        const suggestions = Object.keys(encyclopediaData).filter(key => key.includes(query.toLowerCase()));
-        suggestionsList.innerHTML = ''; // Czyszczenie poprzednich sugestii
-        suggestions.forEach(suggestion => {
-            const link = document.createElement('a');
-            link.href = '#'; // Link, który nie przenosi do innej strony
-            link.textContent = suggestion;
-            const listItem = document.createElement('li');
-            listItem.appendChild(link);
-            suggestionsList.appendChild(listItem);
+    // Obsługa zdarzenia beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('beforeinstallprompt event triggered');
+        e.preventDefault();
+        deferredPrompt = e;
+        installButton.style.display = 'block';
+
+        installButton.addEventListener('click', () => {
+            installButton.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Użytkownik zaakceptował instalację PWA');
+                } else {
+                    console.log('Użytkownik odrzucił instalację PWA');
+                }
+                deferredPrompt = null;
+            });
         });
-    }
-
-    // Słuchacz zmiany wartości w polu wyszukiwania
-    searchEditText.addEventListener('input', function() {
-        const query = searchEditText.value.trim();
-        if (query.length > 0) {
-            generateSuggestions(query);
-        } else {
-            suggestionsList.innerHTML = ''; // Czyszczenie sugestii, jeśli pole wyszukiwania jest puste
-        }
     });
-});
+
+    // Sprawdzenie, czy aplikacja jest zainstalowana
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('Aplikacja została zainstalowana.');
+    });
+
+    // Rejestracja
