@@ -364,6 +364,7 @@ const encyclopediaData = {
 // Funkcja obsługująca wyszukiwanie i wyświetlanie definicji
 document.addEventListener('DOMContentLoaded', function() {
     const searchEditText = document.getElementById('searchEditText');
+    const searchButton = document.getElementById('searchButton');
     const clearButton = document.getElementById('clearButton');
     const resultTextView = document.getElementById('resultTextView');
     const suggestionsContainer = document.getElementById('suggestionsContainer');
