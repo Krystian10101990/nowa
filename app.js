@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestionLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 searchEditText.value = suggestion;
-                searchButton.click();
+                resultTextView.innerHTML = encyclopediaData[suggestion]; // Pokaż definicję
+                suggestionsContainer.innerHTML = ''; // Usuń sugestie
             });
             suggestionsContainer.appendChild(suggestionLink);
         });
