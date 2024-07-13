@@ -8,7 +8,7 @@ self.addEventListener('install', function(event) {
                 '/nowa/app.js',
                 '/nowa/manifest.json',
                 '/nowa/icons/ikonka.png',
-                '/nowa/icons/icon-512x512.png'
+                '/nowa/icons/ikonka2.png'
             ]);
         })
     );
