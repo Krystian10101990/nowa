@@ -394,12 +394,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Nasłuchiwanie na zmiany w polu wyszukiwania
     searchEditText.addEventListener('input', displaySuggestions);
 
-    // Obsługa przycisku szukaj
     searchButton.addEventListener('click', function() {
-        const searchQuery = searchEditText.value.toLowerCase();
-        const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
+    const searchQuery = searchEditText.value.toLowerCase();
+    const definition = encyclopediaData[searchQuery];
+    if (definition) {
+        const result = `
+            <div class="definition">
+                <p>${definition}</p>
+                <button id="copyButton">Kopiuj</button>
+            </div>
+        `;
         resultTextView.innerHTML = result;
-    });
+        const copyButton = document.getElementById('copyButton');
+        copyButton.addEventListener('click', function() {
+            // Kopiowanie definicji do schowka
+            navigator.clipboard.writeText(definition).then(function() {
+                alert('Definicja została skopiowana do schowka.');
+            }, function() {
+                alert('Nie udało się skopiować definicji.');
+            });
+        });
+    } else {
+        resultTextView.innerHTML = `Brak wyników dla: ${searchQuery}`;
+    }
+});
 
     // Obsługa przycisku wyczyść
     clearButton.addEventListener('click', function() {
