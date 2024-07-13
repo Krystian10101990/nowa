@@ -73,4 +73,5 @@ button:hover {
 #resultTextView {
     margin-top: 20px;
     text-align: left;
+    text-align: justify; /* Justify the text */
 }
