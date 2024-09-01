@@ -529,6 +529,14 @@ document.addEventListener('DOMContentLoaded', function() {
         aboutInfo.innerHTML = info;
         aboutInfo.style.display = 'block';
     });
+
+       // Obsługa przycisku "Losowe zagadnienie"
+    randomButton.addEventListener('click', function() {
+        const keys = Object.keys(encyclopediaData);
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        const result = encyclopediaData[randomKey];
+        resultTextView.innerHTML = `<strong>${randomKey}:</strong> ${result}`;
+    });
 });
 
 // Dodanie obsługi instalacji PWA
