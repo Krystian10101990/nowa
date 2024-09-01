@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestionLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 searchEditText.value = suggestion;
-                resultTextView.innerHTML = <strong>suggestion:</strong> encyclopediaData[suggestion]; // Pokaż definicję
+                resultTextView.innerHTML = encyclopediaData[suggestion]; // Pokaż definicję
                 suggestionsContainer.innerHTML = ''; // Usuń sugestie
             });
             suggestionsContainer.appendChild(suggestionLink);
