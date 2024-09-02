@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestionLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 searchEditText.value = suggestion;
-                resultTextView.innerHTML = encyclopediaData[suggestion]; // Pokaż definicję
+                resultTextView.innerHTML = encyclopediaData[suggestion]; // Pokaż definicję 
                 suggestionsContainer.innerHTML = ''; // Usuń sugestie
             });
             suggestionsContainer.appendChild(suggestionLink);
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
     searchButton.addEventListener('click', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
-        resultTextView.innerHTML = `<strong>${suggestion}:</strong> ${result}`;
+        resultTextView.innerHTML = <strong>${suggestion}:</strong> ${result};
     });
 
     // Obsługa przycisku wyczyść
