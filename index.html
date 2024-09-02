@@ -29,6 +29,14 @@
     </style>
 </head>
 <body>
+
+        <div class="container">
+        <!-- Przyciski na górze aplikacji -->
+        <button id="aboutButton">O autorach</button>
+        <div id="aboutAuthors" style="display: none;"> <!-- Kontener na informacje o autorach -->
+            <p>Autorzy: Jan Kowalski, Anna Nowak, Piotr Wiśniewski</p>
+            <p>Projekt powstał w ramach projektu naukowego...</p>
+        </div>
     <div class="container">
             <div class="project-info">
             <img src="test.png" alt="Opis obrazka" class="header-image">
@@ -47,10 +55,6 @@
        <button id="searchButton" hidden>Szukaj</button>
            <button id="clearButton">Wyczyść</button>
         <div id="resultTextView"></div>
-
- <!-- Nowy przycisk "O autorach" -->
-        <button id="aboutButton">O autorach</button>
-        <div id="aboutInfo" style="display: none;"></div> <!-- Informacje o autorach -->
 
  <!-- Nowy przycisk "Losowe zagadnienie" -->
         <button id="randomButton">Losowe zagadnienie</button>
