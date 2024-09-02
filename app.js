@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
     searchButton.addEventListener('click', function() {
         const searchQuery = searchEditText.value.toLowerCase();
         const result = encyclopediaData[searchQuery] || `Brak wyników dla: ${searchQuery}`;
-        resultTextView.innerHTML = <strong>${suggestion}:</strong> ${result};
+        resultTextView.innerHTML = ${result};
     });
 
     // Obsługa przycisku wyczyść
