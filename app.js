@@ -548,7 +548,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>Jan Kowalski - Profesor prawa na Uniwersytecie XYZ, specjalista w dziedzinie prawa cywilnego.</p>
             <p>Anna Nowak - Doktor nauk prawnych, ekspert w zakresie prawa karnego i procesowego.</p>
             <p>Piotr Wiśniewski - Adwokat z wieloletnim doświadczeniem, specjalizujący się w prawie gospodarczym.</p>
-        `;
         aboutInfo.innerHTML = info;
         aboutInfo.style.display = 'block';
     });
