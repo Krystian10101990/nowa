@@ -540,18 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsContainer.innerHTML = '';
     });
 
-
-        // Obsługa przycisku "O autorach"
-    aboutButton.addEventListener('click', function() {
-        const info = `
-            <h2>Autorzy:</h2>
-            <p>Jan Kowalski - Profesor prawa na Uniwersytecie XYZ, specjalista w dziedzinie prawa cywilnego.</p>
-            <p>Anna Nowak - Doktor nauk prawnych, ekspert w zakresie prawa karnego i procesowego.</p>
-            <p>Piotr Wiśniewski - Adwokat z wieloletnim doświadczeniem, specjalizujący się w prawie gospodarczym.</p>
-        aboutInfo.innerHTML = info;
-        aboutInfo.style.display = 'block';
-    });
-
        // Obsługa przycisku "Losowe zagadnienie"
     randomButton.addEventListener('click', function() {
         const keys = Object.keys(encyclopediaData);
