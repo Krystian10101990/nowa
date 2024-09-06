@@ -561,6 +561,18 @@ aboutButton.addEventListener('click', function() {
     }
 });
 
+
+    // Obsługa przycisku "O autorach"
+const aboutAuth = document.getElementById('aboutAuth');
+
+aboutButton.addEventListener('click', function() {
+    if (aboutAuth.style.display === 'none') {
+        aboutAuth.style.display = 'block'; // Pokaż opis aplikacji
+    } else {
+        aboutAuth.style.display = 'none'; // Ukryj opis aplikacji
+    }
+});
+    
        // Obsługa przycisku "Losowe zagadnienie"
     randomButton.addEventListener('click', function() {
         const keys = Object.keys(encyclopediaData);
