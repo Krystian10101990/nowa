@@ -549,6 +549,18 @@ document.addEventListener('DOMContentLoaded', function() {
         suggestionsContainer.innerHTML = '';
     });
 
+    // Obsługa przycisku "O aplikacji"
+const aboutButton = document.getElementById('aboutButton');
+const aboutApp = document.getElementById('aboutApp');
+
+aboutButton.addEventListener('click', function() {
+    if (aboutApp.style.display === 'none') {
+        aboutApp.style.display = 'block'; // Pokaż opis aplikacji
+    } else {
+        aboutApp.style.display = 'none'; // Ukryj opis aplikacji
+    }
+});
+
        // Obsługa przycisku "Losowe zagadnienie"
     randomButton.addEventListener('click', function() {
         const keys = Object.keys(encyclopediaData);
