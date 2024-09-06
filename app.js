@@ -566,7 +566,7 @@ aboutButton.addEventListener('click', function() {
 const aboutAutho = document.getElementById('aboutAutho');
 const aboutAuth = document.getElementById('aboutAuth');
 
-aboutButton.addEventListener('click', function() {
+aboutAuth.addEventListener('click', function() {
     if (aboutAuth.style.display === 'none') {
         aboutAuth.style.display = 'block'; // Pokaż opis aplikacji
     } else {
