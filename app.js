@@ -563,6 +563,7 @@ aboutButton.addEventListener('click', function() {
 
 
     // Obsługa przycisku "O autorach"
+const aboutAutho = document.getElementById('aboutAutho');
 const aboutAuth = document.getElementById('aboutAuth');
 
 aboutButton.addEventListener('click', function() {
